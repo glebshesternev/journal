@@ -12,6 +12,7 @@ import ru.ok.journal.service.*;
 
 @Controller
 public class MainController {
+
     private IMainControllerService mainControllerService;
 
     public MainController(IMainControllerService mainControllerService) {

@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "posts")
 @Data
 public class Post {
     @Id
