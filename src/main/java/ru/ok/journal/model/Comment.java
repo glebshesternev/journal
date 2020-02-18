@@ -20,6 +20,8 @@ public class Comment {
     private Long id;
     private String data;
     private Date time;
+    @ManyToOne
+    private Post post;
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
