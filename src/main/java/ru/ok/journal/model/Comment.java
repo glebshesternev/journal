@@ -20,7 +20,12 @@ public class Comment {
     private Long id;
     private String data;
     private Date time;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "post_comments",
+            joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
