@@ -20,7 +20,12 @@ public class Comment {
     private Long id;
     private String data;
     private Date time;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "comment_author",
+            joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private User author;
 
 }
