@@ -1,5 +1,6 @@
 package ru.ok.journal.service;
 
+import org.springframework.stereotype.Service;
 import ru.ok.journal.dto.PostDto;
 import ru.ok.journal.model.Comment;
 import ru.ok.journal.model.Post;
@@ -9,6 +10,7 @@ import ru.ok.journal.repository.PostRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PostService implements IPostService {
 
     final private PostRepository postRepository;
