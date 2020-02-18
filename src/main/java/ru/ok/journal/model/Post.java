@@ -19,6 +19,7 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
     private Collection<Comment> comments;
-
+    @OneToOne
+    private User author;
 
 }
