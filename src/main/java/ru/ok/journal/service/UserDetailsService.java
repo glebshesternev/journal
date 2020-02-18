@@ -1,6 +1,8 @@
 package ru.ok.journal.service;
 
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import ru.ok.journal.model.User;
 import ru.ok.journal.model.Role;
 import ru.ok.journal.repository.UserRepository;
@@ -16,7 +18,9 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class UserDetailsService implements
+        org.springframework.security.core.userdetails.UserDetailsService,
+        IUserService {
     private final UserRepository userRepository;
 
     public UserDetailsService(UserRepository userRepository) {
@@ -41,5 +45,11 @@ public class UserDetailsService implements org.springframework.security.core.use
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public User currentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findByLogin(auth.getName());
     }
 }
