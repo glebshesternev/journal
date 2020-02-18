@@ -20,6 +20,8 @@ public class Comment {
     private Long id;
     private String data;
     private Date time;
+    @ManyToOne
+    private Post post;
     @OneToOne
     private User author;
 
