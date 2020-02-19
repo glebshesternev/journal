@@ -51,7 +51,7 @@ public class RMICommentImpl implements RMIComment {
         this.text = text;
     }
 
-    public List<Comment> getByPost(List<Pair> postIds, ICommentService commentService, IPostService postService){
+    public List<Comment> getByPost(List<Pair> postIds, ICommentService commentService, IPostService postService) {
         //Pair - postID + lastCommentID
         List<Post> posts = new ArrayList<>();
         List<Comment> comments = new ArrayList<>();
@@ -64,7 +64,7 @@ public class RMICommentImpl implements RMIComment {
                 if (post.getId() == postId.getPostId()){
                     tempComments.addAll(commentService.getByPost(post));
                     for (Comment tempComment : tempComments) {
-                        if (tempComment.getId >=postId.getLastCommentId()){
+                        if (tempComment.getId() >=postId.getLastCommentId()){
                             comments.add(tempComment);
                         }
                     }
