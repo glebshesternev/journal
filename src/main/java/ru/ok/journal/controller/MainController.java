@@ -23,8 +23,8 @@ public class MainController {
     @GetMapping("/newPost")
     public String createPost(Model model) {
         PostDto postDto = new PostDto();
-        model.addAttribute("address", postDto);
-        return "addressForm";
+        model.addAttribute("post", postDto);
+        return "newPost";
     }
 
     @PostMapping(value = "/newPost")
