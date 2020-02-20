@@ -6,12 +6,15 @@ import ru.ok.journal.model.Post;
 import ru.ok.journal.service.ICommentService;
 import ru.ok.journal.service.IPostService;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service //???
 public class RMICommentImpl implements RMIComment {
+    @Resource
     ICommentService commentService;
+    @Resource
     IPostService postService;
     private long id;
     private long postId;
@@ -51,13 +54,11 @@ public class RMICommentImpl implements RMIComment {
         this.text = text;
     }
 
-    public List<Comment> getByPost(List<Pair> postIds, ICommentService commentService, IPostService postService) {
+    public List<Comment> getByPost(List<Pair> postIds) {
         //Pair - postID + lastCommentID
         List<Post> posts = new ArrayList<>();
         List<Comment> comments = new ArrayList<>();
         List<Comment> tempComments = new ArrayList<>();
-        this.postService = postService;
-        this.commentService = commentService;
         posts.addAll(postService.getAll());
         for (Post post : posts) {
             for (Pair postId : postIds) {
