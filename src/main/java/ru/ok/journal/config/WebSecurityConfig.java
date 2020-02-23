@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**");
+        web.ignoring().antMatchers("/css/**", "/static/js/**");
     }
 
     @Override
@@ -34,13 +34,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .anyRequest().hasRole("USER")
+                .antMatchers("/","/login**", "/static/js/**","/error**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .formLogin().defaultSuccessUrl("/posts",true)
                 .and()
-                .logout()
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true);
+                .logout().logoutSuccessUrl("/").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true);
     }
 
     @Bean

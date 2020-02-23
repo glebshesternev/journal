@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 public class PostService implements IPostService {
-
     final private PostRepository postRepository;
 
     public PostService(PostRepository postRepository) {
