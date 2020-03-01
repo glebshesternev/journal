@@ -17,51 +17,14 @@ public class RMIComment implements IRMIComment {
     @Resource
     IPostService postService;
 
-    private long id;
-    private long postId;
-    private String text;
-
-    public RMIComment(long id, long postId, String text) {
-        this.id = id;
-        this.postId = postId;
-        this.text = text;
-    }
-
     public RMIComment() {
     }
 
     @Override
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
-    public long getPostId() {
-        return postId;
-    }
-
-    @Override
-    public void setPostId(long postId) {
-        this.postId = postId;
-    }
-
-    @Override
-    public String getText() {
-        return text;
-    }
-
-    @Override
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public List<Comment> getByPost(List<Pair> postIds) {
-        //Pair - postID + lastCommentID
+        /**
+         * Pair - postID + lastCommentID
+         */
         List<Post> posts = new ArrayList<>();
         List<Comment> comments = new ArrayList<>();
         List<Comment> tempComments = new ArrayList<>();
@@ -78,7 +41,6 @@ public class RMIComment implements IRMIComment {
                 }
             }
         }
-
         return comments;
     }
 

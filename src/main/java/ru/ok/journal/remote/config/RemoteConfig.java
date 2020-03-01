@@ -9,18 +9,14 @@ import ru.ok.journal.remote.rmi.RMIComment;
 
 @Configuration
 public class RemoteConfig {
-//    long id;
-//    long postId;
-//    String text;
 
     @Bean
     RemoteExporter registerRMIExporter() {
 
         RmiServiceExporter exporter = new RmiServiceExporter();
-        exporter.setServiceName("PostCommentRMI");
+        exporter.setServiceName("rmi_comment");
         exporter.setServiceInterface(IRMIComment.class);
         exporter.setService(new RMIComment());
-//        exporter.setService(new RMICommentImpl(id, postId, text));
 
         return exporter;
     }

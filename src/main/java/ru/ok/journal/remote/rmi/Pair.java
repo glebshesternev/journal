@@ -1,6 +1,8 @@
 package ru.ok.journal.remote.rmi;
 
-public class Pair {
+import java.io.Serializable;
+
+public class Pair implements Serializable {
     private long postId;
     private long lastCommentId;
 
