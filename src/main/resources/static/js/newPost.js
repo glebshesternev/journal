@@ -1,5 +1,3 @@
-import Vue from "vue-resource/src";
-
 function getIndex(list, id) {
     for (let i=0; i < list.length; i++) {
         if (list[i].id === id) {
@@ -9,56 +7,46 @@ function getIndex(list, id) {
     return -1;
 }
 
-let postApi = Vue.resource('/post{/id}');
+const URL = 'http://localhost:8080/newPost';
 
 Vue.component('post-form', {
-    props: ['posts', 'postAttr'],
+    props: ['postAttr'],
     data: function() {
         return {
+            title: '',
             text: '',
-            id: ''
         }
     },
     watch: {
-        postAttr: function(newVal, oldVal) {
+        postAttr: function(newVal) {
+            this.title = newVal.title;
             this.text = newVal.text;
-            this.id = newVal.id;
         }
     },
     template:
         '<div>' +
+        '<input type="text" placeholder="Enter post title" v-model="title" />' +
         '<input type="text" placeholder="Type something" v-model="text" />' +
         '<input type="button" value="Post" @click="post" />' +
         '</div>',
     methods: {
         post: function() {
-            let post = { text: this.text };
-
-            if (this.id) {
-                postApi.update({id: this.id}, post).then(result =>
-                    result.json().then(data => {
-                        let index = getIndex(this.posts, data.id);
-                        this.posts.splice(index, 1, data);
-                        this.text = '';
-                        this.id = ''
-                    })
-                )
-            } else {
-                postApi.save({}, post).then(result =>
-                    result.json().then(data => {
-                        this.posts.push(data);
-                        this.text = '';
-                    })
-                )
-            }
+            let post = {
+                data: this.text,
+                name: this.title
+            };
+            console.log(post);
+            axios.post(`${URL}`, post).then( () => {
+                    this.title = '';
+                    this.text = '';
+                }
+            )
         }
     }
 });
 
 let app = new Vue({
     el: '#app',
-    template: '<post-list :posts="posts" />',
-    data: {
-        posts: []
-    }
+    template:
+        '<post-form />',
 });

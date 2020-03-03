@@ -1,6 +1,8 @@
 package ru.ok.journal.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import ru.ok.journal.service.UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,13 +41,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().defaultSuccessUrl("/posts",true)
                 .and()
-                .logout().logoutSuccessUrl("/").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true);
+                .logout().logoutSuccessUrl("/login").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public ModelMapper modelMapper() { return new ModelMapper(); }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

@@ -1,22 +1,21 @@
 package ru.ok.journal.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.ok.journal.dto.PostDto;
-import ru.ok.journal.model.User;
+import ru.ok.journal.dto.NewPostDto;
+import ru.ok.journal.dto.ShowPostsDto;
 import ru.ok.journal.repository.PostRepository;
-import ru.ok.journal.service.*;
+import ru.ok.journal.service.IMainControllerService;
+import ru.ok.journal.service.IPostService;
 
-import java.util.HashMap;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/")
 public class MainController {
     private IMainControllerService mainControllerService;
+    private IPostService postService;
     private final PostRepository postRepository;
 
     public MainController(IMainControllerService mainControllerService, PostRepository postRepository) {
@@ -25,22 +24,21 @@ public class MainController {
     }
 
     @GetMapping("/newPost")
-    public String createPost(Model model, @AuthenticationPrincipal User user) {
-        PostDto postDto = new PostDto();
-        model.addAttribute("post", postDto);
+    public String createPost(Model model) {
+        NewPostDto newPostDto = new NewPostDto();
+        model.addAttribute("post", newPostDto);
         return "newPost";
     }
 
     @PostMapping(value = "/newPost")
-    public ModelAndView createPost(@ModelAttribute("post") final PostDto postDto,
+    public ModelAndView createPost(@ModelAttribute("post") final NewPostDto newPostDto,
                                    Model model) {
-        String viewName = mainControllerService.createPost(postDto, model);
-        return new ModelAndView(viewName, "post", postDto);
+        String viewName = mainControllerService.createPost(newPostDto, model);
+        return new ModelAndView(viewName, "post", newPostDto);
     }
 
     @GetMapping("/posts")
-    public ModelAndView showPosts(Model model, @AuthenticationPrincipal User user) {
+    public ModelAndView showPosts(Model model) {
         return mainControllerService.showAllPosts();
     }
-
 }

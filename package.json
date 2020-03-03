@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "vue-resource": "^1.5.1"
+  },
+  "devDependencies": {
+    "axios": "^0.19.2"
   }
 }
