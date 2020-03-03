@@ -2,7 +2,6 @@ package ru.ok.journal.model;
 
 import lombok.Data;
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
