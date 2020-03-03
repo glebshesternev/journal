@@ -1,11 +1,12 @@
 package ru.ok.journal.remote.rmi;
 
 
-import ru.ok.journal.model.Comment;
+
+import ru.ok.journal.remote.entity.RMIComment;
 
 import java.util.List;
 
 public interface IRMIComment  {
-    public List<Comment> getByPost(List<Pair> postIds);
+    public List<RMIComment> getByPost(List<Pair> postIds);
 
 }
