@@ -2,12 +2,13 @@ package ru.ok.journal.model;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
 @Data
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

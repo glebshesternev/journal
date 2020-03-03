@@ -10,11 +10,12 @@ import javax.persistence.Id;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Data
-public class Comment {
+public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

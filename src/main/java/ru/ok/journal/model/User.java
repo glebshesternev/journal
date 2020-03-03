@@ -4,6 +4,7 @@ package ru.ok.journal.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 @Data
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

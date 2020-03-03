@@ -12,12 +12,15 @@ import java.util.List;
 
 @Service
 public class RMIComment implements IRMIComment {
-    @Resource
-    ICommentService commentService;
-    @Resource
-    IPostService postService;
+//    @Resource
+    private ICommentService commentService;
 
-    public RMIComment() {
+//    @Resource
+    private IPostService postService;
+
+    public RMIComment(IPostService postService, ICommentService commentService) {
+        this.postService = postService;
+        this.commentService = commentService;
     }
 
     @Override
