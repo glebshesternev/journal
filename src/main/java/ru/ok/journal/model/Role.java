@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "roles")
 @Data
-public class Role implements Serializable {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

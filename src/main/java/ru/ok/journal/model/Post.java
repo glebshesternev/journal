@@ -8,7 +8,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class Post implements Serializable {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
