@@ -13,13 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//TODO: добавить потоки?;
 @Service
 public class ArtificialLoader implements IArtificialLoader {
 
     private volatile boolean flag = false;
     private volatile List<Post> posts; //TODO: здесь оставить переменную или только в методах хранить отдельно (toAllPost, toPost);
-    private volatile List<String> words = new ArrayList<>();
+    private volatile List<String> words;
 
     private Random random = new Random();
     private Integer maxSentenceLength = 50;
@@ -28,18 +27,15 @@ public class ArtificialLoader implements IArtificialLoader {
     private IPostService postService;
     private ICommentService commentService;
 
-    //    @Override
+
     private String getSentence(){
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < this.random.nextInt(maxSentenceLength); i++) {
+        for (int i = 0; i < this.random.nextInt(this.maxSentenceLength); i++) {
             str.append(this.words.get(this.random.nextInt(this.words.size())));
         }
         return str.toString();
     }
 
-    //TODO: делать рандомно по одному или в цикле по порядку все посты проходить
-    // (последнее быстрее наверное, зато первое случайно);
-//    @Override
     private void toAllPost(){
         this.posts = postService.getAll(); //TODO: вынести в отдельный метод как refreshPostsSize();
         //количество постов
@@ -55,27 +51,16 @@ public class ArtificialLoader implements IArtificialLoader {
 //        flag = false;
         this.postService = postService;
         this.commentService = commentService;
-
-        this.user = new User(); //2, "Artifact", "$2y$12$uxplL27Pvf3Bs7j5giGoYeSiQFKfCHTbziui/SRo9fJCc4SI7P4ra", 1
+        this.words = new ArrayList<>();
+        this.user = new User();
         //id. login, password, enabled
         this.user.setId(2);
         this.user.setLogin("Artificial");
         this.user.setPassword("$2y$12$uxplL27Pvf3Bs7j5giGoYeSiQFKfCHTbziui/SRo9fJCc4SI7P4ra"); //test
         this.user.setEnabled(true);
 
-        /**Заполняем список слов из файла //<todo>: может оформить отдельным методом?*/
-        //лучше eng список слов?
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream("ru/ok/journal/artificial/data/word_rus")
-                )
-        );
-        String str;
-        while((str = reader.readLine()) != null) {
-            this.words.add(str);
-        }
-        reader.close();
-        //</todo>
+        //Заполняем список слов из файла
+        this.refreshWordList();
     }
 
     @Override
@@ -116,4 +101,17 @@ public class ArtificialLoader implements IArtificialLoader {
         if (maxSentenceLength > 0) this.maxSentenceLength = maxSentenceLength;
     }
 
+    @Override
+    public void refreshWordList() throws IOException{
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream("ru/ok/journal/artificial/data/word_rus")
+                )
+        );
+        String str;
+        while((str = reader.readLine()) != null) {
+            this.words.add(str);
+        }
+        reader.close();
+    }
 }
