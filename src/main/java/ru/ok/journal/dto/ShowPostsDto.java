@@ -11,6 +11,7 @@ import java.util.TimeZone;
 @Data
 public class ShowPostsDto implements Serializable {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private Long id;
     private String author;
     private String name;
     private String data;

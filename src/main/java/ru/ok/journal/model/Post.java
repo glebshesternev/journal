@@ -13,7 +13,7 @@ public class Post {
     private Long id;
     private String name;
     private String data;
-    @OneToMany(fetch = FetchType.EAGER,
+    @OneToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "post_comments",

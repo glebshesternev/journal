@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Journal</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script th:inline="javascript">
-        var allPosts = [[${allPosts}]];
+        const postsPage = [[${postsPage}]];
     </script>
 </head>
 <body>
 <div id="app"></div>
-<script src="/js/posts.js"></script>
+<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
 </body>
 </html>

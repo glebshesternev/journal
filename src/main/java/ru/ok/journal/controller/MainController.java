@@ -1,44 +1,33 @@
 package ru.ok.journal.controller;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import ru.ok.journal.dto.NewPostDto;
-import ru.ok.journal.dto.ShowPostsDto;
-import ru.ok.journal.repository.PostRepository;
-import ru.ok.journal.service.IMainControllerService;
-import ru.ok.journal.service.IPostService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.ok.journal.service.IPostControllerService;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/")
 public class MainController {
-    private IMainControllerService mainControllerService;
-    private IPostService postService;
-    private final PostRepository postRepository;
+    private IPostControllerService postControllerService;
 
-    public MainController(IMainControllerService mainControllerService, PostRepository postRepository) {
-        this.mainControllerService = mainControllerService;
-        this.postRepository = postRepository;
+    @Value("${spring.profiles.active}")
+    private String profile;
+
+    public MainController(IPostControllerService postControllerService) {
+        this.postControllerService = postControllerService;
     }
 
-    @GetMapping("/newPost")
-    public String createPost(Model model) {
-        NewPostDto newPostDto = new NewPostDto();
-        model.addAttribute("post", newPostDto);
+    @GetMapping("newPost")
+    public String createPost() {
         return "newPost";
     }
 
-    @PostMapping(value = "/newPost")
-    public ModelAndView createPost(@ModelAttribute("post") final NewPostDto newPostDto,
-                                   Model model) {
-        String viewName = mainControllerService.createPost(newPostDto, model);
-        return new ModelAndView(viewName, "post", newPostDto);
-    }
-
-    @GetMapping("/posts")
-    public ModelAndView showPosts(Model model) {
-        return mainControllerService.showAllPosts();
+    @GetMapping("posts")
+    public String showPosts(Model model) {
+        model.addAttribute("postsPage", postControllerService.showPostsPage());
+        model.addAttribute("isDevMode", "dev".equals(profile));
+        return "posts";
     }
 }
