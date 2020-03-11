@@ -7,7 +7,7 @@ import ru.ok.journal.model.Post;
 import ru.ok.journal.model.User;
 import ru.ok.journal.service.ICommentService;
 import ru.ok.journal.service.IPostService;
-import ru.ok.journal.service.IUserService;
+import ru.ok.journal.service.IUserServiceBack;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -24,17 +24,18 @@ public class ArtificialLoader implements IArtificialLoader {
     private Random random;
     private Integer maxSentenceLength;
     private final User user;
+    private List<User> users;
 
     private IPostService postService;
     private ICommentService commentService;
-//    private IUserService userService;
+    private IUserServiceBack userServiceBack;
 
 
-//, IUserService userService
-    public ArtificialLoader(IPostService postService, ICommentService commentService) throws IOException {
+    public ArtificialLoader(IPostService postService, ICommentService commentService, IUserServiceBack userServiceBack) throws IOException {
         this.postService = postService;
         this.commentService = commentService;
-//        this.userService = userService;
+        this.userServiceBack = userServiceBack;
+        this.users = new ArrayList<>();
 
         flag = false;
         posts = new ArrayList<>();
@@ -42,13 +43,14 @@ public class ArtificialLoader implements IArtificialLoader {
 
         random = new Random();
         maxSentenceLength = 5;
-        user = new User();
-
+//        user = new User();
+        users = userServiceBack.findAll();
+        user = users.get(0);
         //id. login, password, enabled
-        user.setId(2L);
-        user.setLogin("Artificial");
-        user.setPassword("$2y$12$uxplL27Pvf3Bs7j5giGoYeSiQFKfCHTbziui/SRo9fJCc4SI7P4ra"); //test
-        user.setEnabled(true);
+//        user.setId(2L);
+//        user.setLogin("Artificial");
+//        user.setPassword("$2y$12$uxplL27Pvf3Bs7j5giGoYeSiQFKfCHTbziui/SRo9fJCc4SI7P4ra"); //test
+//        user.setEnabled(true);
 
         //Заполняем список слов из файла
         this.refreshWordList();
@@ -67,12 +69,14 @@ public class ArtificialLoader implements IArtificialLoader {
     }
 
     private void toAllPost(){
+
         this.posts = postService.getAll();
         Integer numberOfPosts = posts.size();
         Post post = posts.get(random.nextInt(numberOfPosts));
+
         CommentDto comment = new CommentDto();
         comment.setData(this.getSentence());
-        commentService.add(this.user, post, comment);
+        commentService.add(user, post, comment);
         System.out.println(commentService.getByPost(post));
     }
 
@@ -97,16 +101,16 @@ public class ArtificialLoader implements IArtificialLoader {
             Post post = posts.get(postId);
             CommentDto comment = new CommentDto();
             comment.setData(this.getSentence());
-            commentService.add(this.user, post, comment);
+            commentService.add(user, post, comment);
         }
     }
 
     @Override
     public void createPost(){
         PostDto postDto = new PostDto();
-        postDto.setName("<Artificial> " + this.words.get(this.random.nextInt(this.words.size())));
+        postDto.setName("<Artificial> " + words.get(random.nextInt(words.size())));
         postDto.setData(this.getSentence());
-        postService.add(this.user, postDto);
+        postService.add(user, postDto);
     }
 
     @Override
