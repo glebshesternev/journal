@@ -7,6 +7,7 @@ import ru.ok.journal.model.Post;
 import ru.ok.journal.model.User;
 import ru.ok.journal.service.ICommentService;
 import ru.ok.journal.service.IPostService;
+import ru.ok.journal.service.IUserService;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,51 +17,63 @@ import java.util.Random;
 @Service
 public class ArtificialLoader implements IArtificialLoader {
 
-    private volatile boolean flag = false;
+    private volatile boolean flag;
     private volatile List<Post> posts; //TODO: здесь оставить переменную или только в методах хранить отдельно (toAllPost, toPost);
     private volatile List<String> words;
 
-    private Random random = new Random();
-    private Integer maxSentenceLength = 50;
+    private Random random;
+    private Integer maxSentenceLength;
     private final User user;
 
     private IPostService postService;
     private ICommentService commentService;
+//    private IUserService userService;
 
 
+//, IUserService userService
+    public ArtificialLoader(IPostService postService, ICommentService commentService) throws IOException {
+        this.postService = postService;
+        this.commentService = commentService;
+//        this.userService = userService;
+
+        flag = false;
+        posts = new ArrayList<>();
+        words = new ArrayList<>();
+
+        random = new Random();
+        maxSentenceLength = 5;
+        user = new User();
+
+        //id. login, password, enabled
+        user.setId(2L);
+        user.setLogin("Artificial");
+        user.setPassword("$2y$12$uxplL27Pvf3Bs7j5giGoYeSiQFKfCHTbziui/SRo9fJCc4SI7P4ra"); //test
+        user.setEnabled(true);
+
+        //Заполняем список слов из файла
+        this.refreshWordList();
+    }
+
+    /**
+     * maxSentenceLength = 5 +1;
+     * @return String (sentence)
+     */
     private String getSentence(){
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < this.random.nextInt(this.maxSentenceLength); i++) {
-            str.append(this.words.get(this.random.nextInt(this.words.size())));
+        for (int i = 0; i < random.nextInt(maxSentenceLength)+1; i++) {
+            str.append(words.get(random.nextInt(words.size()))).append(" ");
         }
         return str.toString();
     }
 
     private void toAllPost(){
-        this.posts = postService.getAll(); //TODO: вынести в отдельный метод как refreshPostsSize();
-        //количество постов
-        Integer numberOfPosts = this.posts.size();
-        Post post = posts.get(this.random.nextInt(numberOfPosts));
+        this.posts = postService.getAll();
+        Integer numberOfPosts = posts.size();
+        Post post = posts.get(random.nextInt(numberOfPosts));
         CommentDto comment = new CommentDto();
         comment.setData(this.getSentence());
         commentService.add(this.user, post, comment);
-    }
-
-
-    public ArtificialLoader(IPostService postService, ICommentService commentService) throws IOException {
-//        flag = false;
-        this.postService = postService;
-        this.commentService = commentService;
-        this.words = new ArrayList<>();
-        this.user = new User();
-        //id. login, password, enabled
-        this.user.setId(2);
-        this.user.setLogin("Artificial");
-        this.user.setPassword("$2y$12$uxplL27Pvf3Bs7j5giGoYeSiQFKfCHTbziui/SRo9fJCc4SI7P4ra"); //test
-        this.user.setEnabled(true);
-
-        //Заполняем список слов из файла
-        this.refreshWordList();
+        System.out.println(commentService.getByPost(post));
     }
 
     @Override
@@ -105,7 +118,7 @@ public class ArtificialLoader implements IArtificialLoader {
     public void refreshWordList() throws IOException{
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
-                        new FileInputStream("ru/ok/journal/artificial/data/word_rus")
+                        new FileInputStream("src/main/java/ru/ok/journal/artificial/data/word_rus")
                 )
         );
         String str;
