@@ -11,6 +11,7 @@ import ru.ok.journal.service.IUserServiceBack;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -37,14 +38,14 @@ public class ArtificialLoader implements IArtificialLoader {
         this.userServiceBack = userServiceBack;
         this.users = new ArrayList<>();
 
-        flag = false;
+        this.flag = false;
         posts = new ArrayList<>();
         words = new ArrayList<>();
 
         random = new Random();
         maxSentenceLength = 5;
         users = userServiceBack.findAll();
-        user = users.get(0);
+        user = users.get(0);//TODO: get <Artificial>
 
         //Заполняем список слов из файла
         this.refreshWordList();
@@ -63,7 +64,6 @@ public class ArtificialLoader implements IArtificialLoader {
     }
 
     private void toAllPost(){
-
         this.posts = postService.getAll();
         Integer numberOfPosts = posts.size();
         Post post = posts.get(random.nextInt(numberOfPosts));
@@ -71,18 +71,19 @@ public class ArtificialLoader implements IArtificialLoader {
         CommentDto comment = new CommentDto();
         comment.setData(this.getSentence());
         commentService.add(user, post, comment);
-        System.out.println(commentService.getByPost(post));
     }
 
     @Override
     public void stopLoader(){
-        this.flag = false;
+        flag = false;
+        System.out.println("stop");
     }
 
     @Override
     public void startLoader(){
-        this.flag = true;
-        while (this.flag){
+        flag = true;
+        System.out.println("start");
+        while(flag){
             toAllPost();
         }
     }
@@ -93,6 +94,7 @@ public class ArtificialLoader implements IArtificialLoader {
         while(this.flag){
             this.posts = postService.getAll(); //TODO: вынести в отдельный метод как refreshPostsSize();
             Post post = posts.get(postId);
+            if (post == null) return;
             CommentDto comment = new CommentDto();
             comment.setData(this.getSentence());
             commentService.add(user, post, comment);
