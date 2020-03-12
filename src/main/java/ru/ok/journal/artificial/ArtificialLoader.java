@@ -43,14 +43,8 @@ public class ArtificialLoader implements IArtificialLoader {
 
         random = new Random();
         maxSentenceLength = 5;
-//        user = new User();
         users = userServiceBack.findAll();
         user = users.get(0);
-        //id. login, password, enabled
-//        user.setId(2L);
-//        user.setLogin("Artificial");
-//        user.setPassword("$2y$12$uxplL27Pvf3Bs7j5giGoYeSiQFKfCHTbziui/SRo9fJCc4SI7P4ra"); //test
-//        user.setEnabled(true);
 
         //Заполняем список слов из файла
         this.refreshWordList();
