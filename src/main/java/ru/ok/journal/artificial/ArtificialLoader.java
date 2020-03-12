@@ -11,7 +11,6 @@ import ru.ok.journal.service.IUserServiceBack;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -29,13 +28,11 @@ public class ArtificialLoader implements IArtificialLoader {
 
     private IPostService postService;
     private ICommentService commentService;
-    private IUserServiceBack userServiceBack;
 
 
     public ArtificialLoader(IPostService postService, ICommentService commentService, IUserServiceBack userServiceBack) throws IOException {
         this.postService = postService;
         this.commentService = commentService;
-        this.userServiceBack = userServiceBack;
         this.users = new ArrayList<>();
 
         this.flag = false;
@@ -92,7 +89,7 @@ public class ArtificialLoader implements IArtificialLoader {
     public void toPost(Integer postId){
         this.flag = true;
         while(this.flag){
-            this.posts = postService.getAll(); //TODO: вынести в отдельный метод как refreshPostsSize();
+            posts = postService.getAll();
             Post post = posts.get(postId);
             if (post == null) return;
             CommentDto comment = new CommentDto();
