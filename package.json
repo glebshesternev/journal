@@ -1,7 +1,11 @@
 {
   "dependencies": {
+    "@stomp/stompjs": "^5.4.3",
+    "sockjs-client": "^1.4.0",
     "vue": "^2.6.11",
-    "vue-resource": "^1.5.1"
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.1.6",
+    "vuetify": "^2.2.17"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

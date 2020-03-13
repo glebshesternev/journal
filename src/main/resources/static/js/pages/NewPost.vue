@@ -11,34 +11,12 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import NewPost from "../components/posts/NewPost.vue";
 
     export default {
         name: "NewPost",
-        props: ['postAttr'],
-        data() {
-            return {
-                title: '',
-                text: '',
-            }
-        },
-        watch: {
-            postAttr(newVal) {
-                this.title = newVal.title;
-                this.text = newVal.text;
-            }
-        },
-        methods: {
-            post() {
-                let post = {
-                    data: this.text,
-                    name: this.title
-                };
-                axios.post(`${URL}`, post).then(() => {
-                    this.title = '';
-                    this.text = '';
-                })
-            }
+        components: {
+            NewPost,
         }
     }
 </script>

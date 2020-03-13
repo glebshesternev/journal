@@ -8,7 +8,7 @@ import ru.ok.journal.model.User;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    //Page<Comment> findAllByPost(Post post, Pageable pageable);
+//    Page<Comment> findAllByPost(Post post, Pageable pageable);
     List<Comment> findAllByPost(Post post);
     List<Comment> findAllByAuthor(User user);
 }
