@@ -1,6 +1,7 @@
 package ru.ok.journal.controller;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import ru.ok.journal.dto.CommentDto;
 import ru.ok.journal.dto.NewPostDto;
@@ -18,11 +19,11 @@ public class PostController {
         this.postControllerService = postControllerService;
     }
 
-    @PostMapping("/newPost")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Post createPost(@RequestBody NewPostDto newPostDto) {
-        return postControllerService.createPost(newPostDto);
-    }
+//    @PostMapping("/newPost")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Post createPost(@RequestBody NewPostDto newPostDto) {
+//        return postControllerService.createPost(newPostDto);
+//    }
 
     @GetMapping("posts/{id}")
     @ResponseBody
@@ -37,4 +38,10 @@ public class PostController {
 //        model.addAttribute("postsPage", showPostsDto);
 //        return showPostsDto;
 //    }
+
+    @MessageMapping("/createPost")
+    @SendTo("/topic/activity")
+    public Post createPost(NewPostDto newPostDto) {
+        return postControllerService.createPost(newPostDto);
+    }
 }
