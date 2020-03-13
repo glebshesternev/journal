@@ -7,7 +7,6 @@ import ru.ok.journal.model.Post;
 import ru.ok.journal.model.User;
 import ru.ok.journal.repository.CommentRepository;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Service
