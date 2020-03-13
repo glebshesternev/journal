@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Journal</title>
+    <script th:inline="javascript">
+        const postsPage = [[${postsPage}]];
+    </script>
+</head>
+<body>
+<div id="app"></div>
+<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
+</body>
+</html>

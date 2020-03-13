@@ -1,7 +1,6 @@
 package ru.ok.journal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.ok.journal.model.Comment;
 import ru.ok.journal.model.Post;
 import ru.ok.journal.model.User;
 

@@ -1,42 +1,33 @@
 package ru.ok.journal.controller;
 
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
-import ru.ok.journal.dto.PostDto;
-import ru.ok.journal.service.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.ok.journal.service.IPostControllerService;
 
 @Controller
+@RequestMapping("/")
 public class MainController {
+    private IPostControllerService postControllerService;
 
-    private IMainControllerService mainControllerService;
+    @Value("${spring.profiles.active}")
+    private String profile;
 
-    public MainController(IMainControllerService mainControllerService) {
-        this.mainControllerService = mainControllerService;
-
+    public MainController(IPostControllerService postControllerService) {
+        this.postControllerService = postControllerService;
     }
 
-    @GetMapping("/newPost")
-    public String createPost(Model model) {
-        PostDto postDto = new PostDto();
-        model.addAttribute("post", postDto);
+    @GetMapping("newPost")
+    public String createPost() {
         return "newPost";
     }
 
-    @PostMapping(value = "/newPost")
-    public ModelAndView createPost(@ModelAttribute("post") final PostDto postDto,
-                                   Model model) {
-        String viewName = mainControllerService.createPost(postDto, model);
-        return new ModelAndView(viewName, "post", postDto);
+    @GetMapping("posts")
+    public String showPosts(Model model) {
+        model.addAttribute("postsPage", postControllerService.showPostsPage());
+        model.addAttribute("isDevMode", "dev".equals(profile));
+        return "posts";
     }
-
-    @PostMapping("/posts")
-    public ModelAndView showPosts() {
-        return mainControllerService.showAllPosts();
-    }
-
 }

@@ -1,7 +1,7 @@
 package ru.ok.journal.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import ru.ok.journal.service.UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.ok.journal.service.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**");
+        web.ignoring().antMatchers("/css/**", "/static/js/**");
     }
 
     @Override
@@ -34,19 +35,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .anyRequest().hasRole("USER")
+                .antMatchers("/","/login**", "/static/js/**","/error**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .formLogin().defaultSuccessUrl("/posts",true)
                 .and()
-                .logout()
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true);
+                .logout().logoutSuccessUrl("/login").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public ModelMapper modelMapper() { return new ModelMapper(); }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

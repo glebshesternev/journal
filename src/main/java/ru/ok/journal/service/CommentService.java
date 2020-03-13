@@ -7,8 +7,6 @@ import ru.ok.journal.model.Post;
 import ru.ok.journal.model.User;
 import ru.ok.journal.repository.CommentRepository;
 
-import java.util.List;
-
 @Service
 public class CommentService implements ICommentService {
 
@@ -26,10 +24,5 @@ public class CommentService implements ICommentService {
         comment.setAuthor(user);
         commentRepository.save(comment);
         return comment;
-    }
-
-    @Override
-    public List<Comment> getByPost(Post post) {
-        return commentRepository.findAllByPost(post);
     }
 }
