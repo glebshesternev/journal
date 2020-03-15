@@ -1,10 +1,7 @@
 package ru.ok.journal.remote.entity;
 
-import lombok.Data;
-
 import java.io.Serializable;
 
-@Data
 public class RMIComment implements Serializable {
     private long id;
     private long postId;
@@ -16,15 +13,27 @@ public class RMIComment implements Serializable {
         this.text = text;
     }
 
-    @Override
-    public String toString(){
-        StringBuilder str = new StringBuilder();
+    public long getId() {
+        return id;
+    }
 
-        str.append("(id: ").append(this.id)
-                .append(") (postId: ").append(this.postId)
-                .append(") (text: ").append(this.text)
-                .append(")");
+    public void setId(long id) {
+        this.id = id;
+    }
 
-        return str.toString();
+    public long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(long postId) {
+        this.postId = postId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
