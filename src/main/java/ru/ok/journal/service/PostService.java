@@ -32,15 +32,25 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public List<Post> getPostsList(int page, int size, String sortDir, String sort) {
+    public List<Post> getPostsPage(int page, int size, String sortDir, String sort) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDir), sort);
         return postRepository.findAll(pageRequest).getContent();
     }
 
     @Override
-    public List<Comment> getCommentsByPost(Post post, int page, int size, String sortDir, String sort) {
+    public List<Comment> getCommentsPageByPost(Post post, int page, int size, String sortDir, String sort) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDir), sort);
         //return commentRepository.findAllByPost(post, pageRequest).getContent();
         return commentRepository.findAllByPost(post);
+    }
+
+    @Override
+    public List<Comment> getCommentsByPost(Post post) {
+        return commentRepository.findAllByPost(post);
+    }
+
+    @Override
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 }

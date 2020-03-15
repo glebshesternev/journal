@@ -2,13 +2,14 @@ package ru.ok.journal.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 @Data
-public class CommentDto {
+public class CommentDto implements Serializable {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private String data;

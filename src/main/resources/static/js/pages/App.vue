@@ -1,5 +1,17 @@
 <template>
-    <post-list :posts="posts" />
+    <v-app>
+        <v-app-bar app>
+            <v-toolbar-title>Journal</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items class="hidden-sm-and-down">
+                {{ profile }}
+                <v-btn href="/logout"><v-icon large color="blue">fa-sign-out-alt</v-icon></v-btn>
+            </v-toolbar-items>
+        </v-app-bar>
+        <v-content>
+            <post-list :posts="posts" />
+        </v-content>
+    </v-app>
 </template>
 
 <script>
@@ -13,7 +25,9 @@
         },
         data() {
             return{
-                posts: []
+                posts: [],
+                profile: profile.login,
+                isEnabled: profile.enabled,
             }
         },
         created() {

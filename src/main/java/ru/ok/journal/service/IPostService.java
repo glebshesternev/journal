@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface IPostService {
     Post add(User user, Post post);
-    List<Post> getPostsList(int page, int size, String sortDir, String sort);
-    List<Comment> getCommentsByPost(Post post, int page, int size, String sortDir, String sort);
+    List<Post>
+    getPostsPage(int page, int size, String sortDir, String sort);
+    List<Comment> getCommentsPageByPost(Post post, int page, int size, String sortDir, String sort);
+    List<Post> getAllPosts();
+    List<Comment> getCommentsByPost(Post post);
 }

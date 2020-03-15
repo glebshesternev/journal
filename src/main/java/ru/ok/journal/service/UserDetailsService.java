@@ -1,17 +1,18 @@
 package ru.ok.journal.service;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import ru.ok.journal.model.User;
-import ru.ok.journal.model.Role;
-import ru.ok.journal.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ok.journal.dto.UserDto;
+import ru.ok.journal.model.Role;
+import ru.ok.journal.model.User;
+import ru.ok.journal.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -22,9 +23,12 @@ public class UserDetailsService implements
         org.springframework.security.core.userdetails.UserDetailsService,
         IUserService {
     private final UserRepository userRepository;
+    private final IDtoService dtoService;
 
-    public UserDetailsService(UserRepository userRepository) {
+    @Autowired
+    public UserDetailsService(UserRepository userRepository, IDtoService dtoService) {
         this.userRepository = userRepository;
+        this.dtoService = dtoService;
     }
 
     @Override
@@ -45,6 +49,12 @@ public class UserDetailsService implements
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto getProfile() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return dtoService.convertToDto(userRepository.findByLogin(auth.getName()));
     }
 
     @Override

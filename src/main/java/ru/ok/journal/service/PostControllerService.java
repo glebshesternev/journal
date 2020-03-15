@@ -1,7 +1,5 @@
 package ru.ok.journal.service;
 
-import org.modelmapper.Conditions;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.ok.journal.dto.CommentDto;
 import ru.ok.journal.dto.NewPostDto;
@@ -19,43 +17,32 @@ public class PostControllerService implements IPostControllerService {
     private PostRepository postRepository;
     private IPostService postService;
     private IUserService userService;
-
-    private final ModelMapper modelMapper;
+    private IDtoService dtoService;
 
     public PostControllerService(PostRepository postRepository, IPostService postService, IUserService userService,
-                                 ModelMapper modelMapper){
+                                 IDtoService dtoService){
         this.postRepository = postRepository;
         this.postService = postService;
         this.userService = userService;
-        this.modelMapper = modelMapper;
-        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-    }
-
-    private ShowPostsDto convertToDto(Post post) {
-        return modelMapper.map(post, ShowPostsDto.class);
-    }
-    private CommentDto convertToDto(Comment comment) {return modelMapper.map(comment, CommentDto.class);}
-
-    private Post convertToEntity(NewPostDto postDto) {
-        return modelMapper.map(postDto, Post.class);
+        this.dtoService = dtoService;
     }
 
     @Override
     public Post createPost(NewPostDto newPostDto) {
-        Post post = convertToEntity(newPostDto);
+        Post post = dtoService.convertToEntity(newPostDto);
         return postService.add(userService.currentUser(), post);
     }
 
     @Override
     public List<ShowPostsDto> showPostsPage() {
-        List<Post> posts = postService.getPostsList(0, 8, "asc", "id");
-        return posts.stream().map(this::convertToDto).collect(Collectors.toList());
+        List<Post> posts = postService.getPostsPage(0, 8, "asc", "id");
+        return posts.stream().map(dtoService::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<CommentDto> showCommentsPage(Long id) {
         List<Comment> comments = postService
-                .getCommentsByPost(postRepository.getOne(id),0, 10, "asc", "id");
-        return comments.stream().map(this::convertToDto).collect(Collectors.toList());
+                .getCommentsPageByPost(postRepository.getOne(id),0, 10, "asc", "id");
+        return comments.stream().map(dtoService::convertToDto).collect(Collectors.toList());
     }
 }

@@ -6,17 +6,14 @@ import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.remoting.support.RemoteExporter;
 import ru.ok.journal.remote.rmi.IRMIComment;
 import ru.ok.journal.remote.rmi.RMICommentImpl;
-import ru.ok.journal.service.ICommentService;
 import ru.ok.journal.service.IPostService;
 
 @Configuration
 public class RemoteConfig {
-    private ICommentService commentService;
     private IPostService postService;
 
-    public RemoteConfig(IPostService postService, ICommentService commentService){
+    public RemoteConfig(IPostService postService){
         this.postService = postService;
-        this.commentService = commentService;
     }
 
     @Bean
@@ -24,7 +21,7 @@ public class RemoteConfig {
         RmiServiceExporter exporter = new RmiServiceExporter();
         exporter.setServiceName("rmi_comment");
         exporter.setServiceInterface(IRMIComment.class);
-        exporter.setService(new RMICommentImpl(this.postService, this.commentService));
+        exporter.setService(new RMICommentImpl(this.postService));
 
         return exporter;
     }

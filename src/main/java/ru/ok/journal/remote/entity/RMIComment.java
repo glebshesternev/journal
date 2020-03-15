@@ -18,13 +18,6 @@ public class RMIComment implements Serializable {
 
     @Override
     public String toString(){
-        StringBuilder str = new StringBuilder();
-
-        str.append("(id: ").append(this.id)
-                .append(") (postId: ").append(this.postId)
-                .append(") (text: ").append(this.text)
-                .append(")");
-
-        return str.toString();
+        return "(id: " + this.id + ") (postId: " + this.postId + ") (text: " + this.text + ")";
     }
 }

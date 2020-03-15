@@ -1,4 +1,5 @@
-/.idea/
+.idea
 target
 node_modules
 lib
+*.iml
