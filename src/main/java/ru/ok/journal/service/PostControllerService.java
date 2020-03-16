@@ -2,8 +2,8 @@ package ru.ok.journal.service;
 
 import org.springframework.stereotype.Service;
 import ru.ok.journal.dto.CommentDto;
+import ru.ok.journal.dto.GetPostsDto;
 import ru.ok.journal.dto.NewPostDto;
-import ru.ok.journal.dto.ShowPostsDto;
 import ru.ok.journal.model.Comment;
 import ru.ok.journal.model.Post;
 import ru.ok.journal.repository.PostRepository;
@@ -34,13 +34,13 @@ public class PostControllerService implements IPostControllerService {
     }
 
     @Override
-    public List<ShowPostsDto> showPostsPage() {
+    public List<GetPostsDto> getPostsPage() {
         List<Post> posts = postService.getPostsPage(0, 8, "asc", "id");
         return posts.stream().map(dtoService::convertToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<CommentDto> showCommentsPage(Long id) {
+    public List<CommentDto> getCommentsPage(Long id) {
         List<Comment> comments = postService
                 .getCommentsPageByPost(postRepository.getOne(id),0, 10, "asc", "id");
         return comments.stream().map(dtoService::convertToDto).collect(Collectors.toList());

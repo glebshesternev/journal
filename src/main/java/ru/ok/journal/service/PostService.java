@@ -39,8 +39,8 @@ public class PostService implements IPostService {
 
     @Override
     public List<Comment> getCommentsPageByPost(Post post, int page, int size, String sortDir, String sort) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDir), sort);
-        //return commentRepository.findAllByPost(post, pageRequest).getContent();
+        /*PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDir), sort);
+        return commentRepository.findAllByPost(post, pageRequest).getContent();*/
         return commentRepository.findAllByPost(post);
     }
 

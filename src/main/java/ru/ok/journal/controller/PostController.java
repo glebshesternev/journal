@@ -28,7 +28,7 @@ public class PostController {
     @GetMapping("posts/{id}")
     @ResponseBody
     public List<CommentDto> showPostComments(@PathVariable("id") Long id) {
-        return postControllerService.showCommentsPage(id);
+        return postControllerService.getCommentsPage(id);
     }
 
 //    @GetMapping(value = "posts", params = "model")

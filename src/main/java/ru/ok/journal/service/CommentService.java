@@ -25,5 +25,4 @@ public class CommentService implements ICommentService {
         commentRepository.save(comment);
         return comment;
     }
-
 }

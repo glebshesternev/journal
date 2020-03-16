@@ -1,12 +1,22 @@
 <template>
     <div>
         {{ title }} : {{ text }}
-        <input type="button" value="View comments" @click="() => { showComments = !showComments; viewComments() }" />
-        <transition name="fade">
-            <div v-if="showComments">
-                <comment v-for="(comment, index) in currentComments" :key="index" :comment="comment" />
-            </div>
-        </transition>
+        <v-toolbar flat height="40">
+            <v-toolbar-items>
+                <v-btn value="View comments" @click="() => { showComments = !showComments; viewComments() }">
+                    <v-badge top overlap color="blue" :content=commentsCount>
+                        <v-icon style="clear: both">
+                            far fa-comments
+                        </v-icon>
+                    </v-badge>
+                </v-btn>
+                <transition name="fade">
+                    <div v-if="showComments">
+                        <comment v-for="(comment, index) in currentComments" :key="index" :comment="comment" />
+                    </div>
+                </transition>
+            </v-toolbar-items>
+        </v-toolbar>
     </div>
 </template>
 
@@ -19,7 +29,7 @@
         components: {
             Comment
         },
-        props: ['post'],
+        props: ['post', 'commentsCount'],
         data() {
             return {
                 id: '',
@@ -28,7 +38,7 @@
                 text: this.post.data,
                 showComments: false,
                 comments: new Map(),
-                currentComments: null
+                currentComments: null,
             }
         },
         methods: {

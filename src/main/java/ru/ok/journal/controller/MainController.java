@@ -30,7 +30,7 @@ public class MainController {
     @GetMapping("posts")
     public String showPosts(Model model) {
         model.addAttribute("profile", userService.getProfile());
-        model.addAttribute("postsPage", postControllerService.showPostsPage());
+        model.addAttribute("postsPage", postControllerService.getPostsPage());
         model.addAttribute("isDevMode", "dev".equals(profile));
         return "posts";
     }
