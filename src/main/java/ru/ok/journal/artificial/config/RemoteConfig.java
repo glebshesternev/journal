@@ -14,6 +14,9 @@ import ru.ok.journal.service.IUserServiceBack;
 
 import java.io.IOException;
 
+/**
+ * client: https://github.com/NShmendyuk/LoaderRMI
+ */
 @Configuration
 public class RemoteConfig {
     private ICommentService commentService;

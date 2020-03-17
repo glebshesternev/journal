@@ -33,4 +33,10 @@ public class ArtificialLoaderWebController {
         }
     }
 
+    @GetMapping("/loaderStatus")
+    public String getStatus(){
+        if (loader.getStatus()) return "started";
+        else return "stopped";
+    }
+
 }

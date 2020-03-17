@@ -25,7 +25,6 @@ public class ArtificialLoader implements IArtificialLoader {
     private Random random;
     private Integer maxSentenceLength;
     private final User user;
-    private List<User> users;
 
     private IPostControllerService postControllerService;
     private IPostService postService
@@ -36,7 +35,7 @@ public class ArtificialLoader implements IArtificialLoader {
         this.postControllerService = postControllerService;
         this.postService = postService;
         this.commentService = commentService;
-        this.users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         this.flag = false;
         posts = new ArrayList<>();
@@ -73,6 +72,9 @@ public class ArtificialLoader implements IArtificialLoader {
         commentService.add(user, post, comment);
     }
 
+    /**
+     * When (flag == stop) all threads will be finished
+     */
     @Override
     public void stopLoader(){
         flag = false;
@@ -128,5 +130,8 @@ public class ArtificialLoader implements IArtificialLoader {
         reader.close();
     }
 
-
+    @Override
+    public boolean getStatus(){
+        return flag;
+    }
 }
