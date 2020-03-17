@@ -1,6 +1,7 @@
 package ru.ok.journal.config;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import ru.ok.journal.service.UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.ok.journal.service.UserDetailsService;
-
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/static/js/**");
+        web.ignoring().antMatchers("/css/**", "/js/**");
     }
 
     @Override
@@ -35,12 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/login**", "/static/js/**","/error**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().hasRole("USER")
                 .and()
-                .formLogin().defaultSuccessUrl("/posts",true)
+                .formLogin()
                 .and()
-                .logout().logoutSuccessUrl("/login").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true);
+                .logout()
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
     }
 
     @Bean

@@ -1,7 +1,6 @@
 package ru.ok.journal.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -9,6 +8,7 @@ import java.util.Objects;
 @Table(name = "roles")
 @Data
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
