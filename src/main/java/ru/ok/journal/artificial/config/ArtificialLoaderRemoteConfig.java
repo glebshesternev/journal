@@ -15,13 +15,13 @@ import java.io.IOException;
  * client: https://github.com/NShmendyuk/LoaderRMI
  */
 @Configuration
-public class RemoteConfig {
+public class ArtificialLoaderRemoteConfig {
     private ICommentService commentService;
     private IPostService postService;
     private IUserServiceBack userServiceBack;
     private IPostControllerService postControllerService;
 
-    public RemoteConfig(IPostControllerService postControllerService, IPostService postService, ICommentService commentService, IUserServiceBack userServiceBack){
+    public ArtificialLoaderRemoteConfig(IPostControllerService postControllerService, IPostService postService, ICommentService commentService, IUserServiceBack userServiceBack){
         this.postService = postService;
         this.commentService = commentService;
         this.userServiceBack = userServiceBack;
