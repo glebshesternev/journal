@@ -7,10 +7,7 @@ import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.remoting.support.RemoteExporter;
 import ru.ok.journal.artificial.ArtificialLoader;
 import ru.ok.journal.artificial.IArtificialLoader;
-import ru.ok.journal.service.ICommentService;
-import ru.ok.journal.service.IPostService;
-import ru.ok.journal.service.IUserService;
-import ru.ok.journal.service.IUserServiceBack;
+import ru.ok.journal.service.*;
 
 import java.io.IOException;
 
@@ -22,11 +19,13 @@ public class RemoteConfig {
     private ICommentService commentService;
     private IPostService postService;
     private IUserServiceBack userServiceBack;
+    private IPostControllerService postControllerService;
 
-    public RemoteConfig(IPostService postService, ICommentService commentService, IUserServiceBack userServiceBack){
+    public RemoteConfig(IPostControllerService postControllerService, IPostService postService, ICommentService commentService, IUserServiceBack userServiceBack){
         this.postService = postService;
         this.commentService = commentService;
         this.userServiceBack = userServiceBack;
+        this.postControllerService = postControllerService;
     }
 
     @Bean
@@ -34,7 +33,7 @@ public class RemoteConfig {
         RmiServiceExporter exporter = new RmiServiceExporter();
         exporter.setServiceName("artificial");
         exporter.setServiceInterface(IArtificialLoader.class);
-        exporter.setService(new ArtificialLoader(this.postService, this.commentService, this.userServiceBack));
+        exporter.setService(new ArtificialLoader(this.postService, this.postControllerService, this.commentService, this.userServiceBack));
 
         return exporter;
     }
