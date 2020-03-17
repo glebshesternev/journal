@@ -29,7 +29,7 @@ public class ArtificialLoaderRemoteConfig {
     }
 
     @Bean
-    RemoteExporter registerRMIExporter() throws IOException {
+    RemoteExporter registerArtificialLoaderRMIExporter() throws IOException {
         RmiServiceExporter exporter = new RmiServiceExporter();
         exporter.setServiceName("artificial");
         exporter.setServiceInterface(IArtificialLoader.class);
