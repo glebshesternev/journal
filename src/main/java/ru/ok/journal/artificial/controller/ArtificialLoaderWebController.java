@@ -3,6 +3,7 @@ package ru.ok.journal.artificial.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.ok.journal.artificial.ArtificialThreadLoader;
 import ru.ok.journal.artificial.IArtificialLoader;
 
 @Controller
@@ -16,20 +17,20 @@ public class ArtificialLoaderWebController {
     }
 
     @GetMapping("/startLoader")
-    public String startLoader(){
+    public void startLoader(){
         loader.startLoader();
-        return "startLoader";
     }
 
     @GetMapping("/stopLoader")
-    public String stopLoader(){
+    public void stopLoader(){
         loader.stopLoader();
-        return "stopLoader";
     }
-    /**
-     * ...
-     * TODO: other methods
-     * ...
-     */
+
+    @GetMapping("/loaderThreads")
+    public void startThreadsLoader(Long threads){
+        for (int i = 0; i < threads; i++) {
+            new ArtificialThreadLoader("ArtificialThreadLoader", loader);
+        }
+    }
 
 }

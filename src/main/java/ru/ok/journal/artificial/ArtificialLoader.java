@@ -2,10 +2,11 @@ package ru.ok.journal.artificial;
 
 import org.springframework.stereotype.Service;
 import ru.ok.journal.dto.CommentDto;
-import ru.ok.journal.dto.PostDto;
+import ru.ok.journal.dto.NewPostDto;
 import ru.ok.journal.model.Post;
 import ru.ok.journal.model.User;
 import ru.ok.journal.service.ICommentService;
+import ru.ok.journal.service.IPostControllerService;
 import ru.ok.journal.service.IPostService;
 import ru.ok.journal.service.IUserServiceBack;
 
@@ -26,11 +27,13 @@ public class ArtificialLoader implements IArtificialLoader {
     private final User user;
     private List<User> users;
 
-    private IPostService postService;
+    private IPostControllerService postControllerService;
+    private IPostService postService
     private ICommentService commentService;
 
 
-    public ArtificialLoader(IPostService postService, ICommentService commentService, IUserServiceBack userServiceBack) throws IOException {
+    public ArtificialLoader(IPostService postService, IPostControllerService postControllerService, ICommentService commentService, IUserServiceBack userServiceBack) throws IOException {
+        this.postControllerService = postControllerService;
         this.postService = postService;
         this.commentService = commentService;
         this.users = new ArrayList<>();
@@ -61,7 +64,7 @@ public class ArtificialLoader implements IArtificialLoader {
     }
 
     private void toAllPost(){
-        this.posts = postService.getAll();
+        this.posts = postService.getAllPosts();
         Integer numberOfPosts = posts.size();
         Post post = posts.get(random.nextInt(numberOfPosts));
 
@@ -89,7 +92,7 @@ public class ArtificialLoader implements IArtificialLoader {
     public void toPost(Integer postId){
         this.flag = true;
         while(this.flag){
-            posts = postService.getAll();
+            posts = postService.getAllPosts();
             Post post = posts.get(postId);
             if (post == null) return;
             CommentDto comment = new CommentDto();
@@ -100,10 +103,10 @@ public class ArtificialLoader implements IArtificialLoader {
 
     @Override
     public void createPost(){
-        PostDto postDto = new PostDto();
+        NewPostDto postDto = new NewPostDto();
         postDto.setName("<Artificial> " + words.get(random.nextInt(words.size())));
         postDto.setData(this.getSentence());
-        postService.add(user, postDto);
+        postControllerService.add(user, postDto);
     }
 
     @Override
@@ -124,4 +127,6 @@ public class ArtificialLoader implements IArtificialLoader {
         }
         reader.close();
     }
+
+
 }
