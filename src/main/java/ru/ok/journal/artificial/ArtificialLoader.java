@@ -27,7 +27,7 @@ public class ArtificialLoader implements IArtificialLoader {
     private final User user;
 
     private IPostControllerService postControllerService;
-    private IPostService postService
+    private IPostService postService;
     private ICommentService commentService;
 
 
@@ -108,7 +108,7 @@ public class ArtificialLoader implements IArtificialLoader {
         NewPostDto postDto = new NewPostDto();
         postDto.setName("<Artificial> " + words.get(random.nextInt(words.size())));
         postDto.setData(this.getSentence());
-        postControllerService.add(user, postDto);
+        postControllerService.createPost(postDto);
     }
 
     @Override

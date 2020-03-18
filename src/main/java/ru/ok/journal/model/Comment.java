@@ -14,14 +14,14 @@ public class Comment {
     private String data;
     private Date time;
     @ManyToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            cascade = {/**CascadeType.PERSIST,**/ CascadeType.MERGE})
     @JoinTable(
             name = "post_comments",
             joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            cascade = {/**CascadeType.PERSIST,**/ CascadeType.MERGE})
     @JoinTable(
             name = "comment_author",
             joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"),

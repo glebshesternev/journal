@@ -8,7 +8,7 @@
             </v-list-item>
             <v-divider></v-divider>
             <v-text-field label="Speed" clearable outlined/>
-            <v-list-item v-if="!isStarted" @click="isStarted = !isStarted">
+            <v-list-item v-if="!isStarted" @click="startLoad()">
                 <v-list-item-icon>
                     <v-icon>{{ items[0].icon }}</v-icon>
                 </v-list-item-icon>
@@ -16,7 +16,7 @@
                     <v-list-item-title>{{ items[0].title }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-else @click="isStarted = !isStarted">
+            <v-list-item v-else @click="stopLoad()">
                 <v-list-item-icon>
                     <v-icon>{{ items[1].icon }}</v-icon>
                 </v-list-item-icon>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         name: "AdminBar",
         data () {
@@ -41,6 +43,16 @@
                 index: 0,
             }
         },
+        methods: {
+            startLoad() {
+                this.isStarted = !this.isStarted;
+                axios.post(`http://localhost:8080/startLoader`)
+            },
+            stopLoad() {
+                this.isStarted = !this.isStarted;
+                axios.post(`http://localhost:8080/stopLoader`)
+            }
+        }
     }
 </script>
 

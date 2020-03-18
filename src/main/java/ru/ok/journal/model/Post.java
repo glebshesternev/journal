@@ -19,14 +19,14 @@ public class Post {
     private String data;
 
     @OneToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            cascade = {/**CascadeType.PERSIST,**/ CascadeType.MERGE})
     @JoinTable(
             name = "post_comments",
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
     private Collection<Comment> comments;
     @ManyToOne(fetch = FetchType.LAZY,
-               cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+               cascade = {/**CascadeType.PERSIST,**/ CascadeType.MERGE})
     @JoinTable(
             name = "post_author",
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
