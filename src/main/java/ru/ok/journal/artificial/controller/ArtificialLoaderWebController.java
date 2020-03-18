@@ -35,10 +35,10 @@ public class ArtificialLoaderWebController {
     }
 
     @GetMapping("loaderStatus")
-    public String getStatus(){
+    public boolean getStatus(){
         System.out.println(loader.getStatus());
-        if (loader.getStatus()) return "started";
-        else return "stopped";
+        if (loader.getStatus()) return true;
+        else return false;
     }
 
 }
