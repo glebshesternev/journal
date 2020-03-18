@@ -1,6 +1,25 @@
 <template>
     <v-layout align-start justify-start column>
-        <v-expansion-panels multiple popout focusable>
+        <v-app-bar app dense>
+            <v-btn depressed @click="all()">all</v-btn>
+            <v-btn depressed @click="none()">none</v-btn>
+            <v-spacer/>
+            <v-toolbar-title>JOURNAL</v-toolbar-title>
+            <v-spacer/>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <span id="profile" class="font-italic font-weight-bold" v-on="on">{{ profile }}</span>
+                </template>
+                <span>username</span>
+            </v-tooltip>
+            <v-toolbar-items class="hidden-sm-and-down">
+                <v-btn depressed href="/logout">
+                    <v-icon left color="grey darken-3">
+                        fa-sign-out-alt
+                    </v-icon>EXIT</v-btn>
+            </v-toolbar-items>
+        </v-app-bar>
+        <v-expansion-panels v-model="panel" multiple popout focusable>
             <v-expansion-panel v-for="post in posts" :key="post.id">
                 <v-expansion-panel-header>
                     <v-container>
@@ -24,27 +43,33 @@
                 <v-expansion-panel-content>{{ post.data }}</v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
-        <!--        <post v-for="(post,index) in posts[0]" :key="post.id" :post="post" :commentsCount="posts[1][index].toString()"/>-->
-        <v-btn id="add-post" min-width="98%" depressed color="blue" href="http://localhost:8080/newPost">
+        <v-btn id="add-post" min-width="98%" depressed color="blue" to="/new-post">
             Add post
         </v-btn>
     </v-layout>
 </template>
 
 <script>
-    import Post from "./Post.vue";
-
     export default {
         name: "PostList",
-        components: {
-            Post,
-        },
         props: ['posts'],
+        data() {
+            return {
+                panel: [],
+                profile: profile.login,
+            }
+        },
         methods: {
             getAuthorId(post) {
                 if(post.author !== null) {
                     return `User's login : ` + post.author.substr(17, 4)
                 }
+            },
+            all() {
+                this.panel = [...Array(this.posts.length).keys()].map((k, i) => i)
+            },
+            none() {
+                this.panel = []
             }
         }
     }
@@ -56,5 +81,8 @@
     }
     #comments {
         clear: both
+    }
+    #profile {
+        margin-right: 0.2%
     }
 </style>

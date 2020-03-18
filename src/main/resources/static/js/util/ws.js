@@ -27,5 +27,5 @@ export function disconnect() {
 }
 
 export function sendPost(post) {
-    stompClient.send("/app/createPost", {}, JSON.stringify(post));
+    stompClient.send("/app/create-post", {}, JSON.stringify(post));
 }

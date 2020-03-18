@@ -39,7 +39,7 @@ public class PostController {
 //        return showPostsDto;
 //    }
 
-    @MessageMapping("/createPost")
+    @MessageMapping("/create-post")
     @SendTo("/topic/activity")
     public Post createPost(NewPostDto newPostDto) {
         return postControllerService.createPost(newPostDto);
