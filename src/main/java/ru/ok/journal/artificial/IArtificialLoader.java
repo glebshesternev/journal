@@ -9,4 +9,5 @@ public interface IArtificialLoader  {
     public void createPost(); //создать рандомный пост (надо ли???)
     public void setMaxSentenceLength(Integer maxSentenceLength);
     public void refreshWordList() throws IOException;
+    public boolean getStatus();
 }
