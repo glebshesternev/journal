@@ -1,13 +1,13 @@
 <template>
     <v-navigation-drawer drawer color="blue" expand-on-hover right absolute width="10%">
-        <v-list dense nav @click="!isStarted"  class="py-0">
+        <v-list dense nav @click="isStarted=getStatus()"  class="py-0">
             <v-list-item two-line>
                 <v-list-item-content>
                     <v-list-item-title>Admin Bar</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
-            <v-text-field label="Speed" clearable outlined/>
+<!--            <v-text-field label="Speed" v-model="speed" clearable outlined/>-->
             <v-list-item v-if="!isStarted" @click="startLoad()">
                 <v-list-item-icon>
                     <v-icon>{{ items[0].icon }}</v-icon>
@@ -41,17 +41,23 @@
                     { title: 'Stop', icon: 'fa-plane-arrival' },
                 ],
                 index: 0,
+                speed: 0,
             }
         },
         methods: {
             startLoad() {
                 this.isStarted = !this.isStarted;
                 axios.post(`http://localhost:8080/startLoader`)
+                console.log(this.speed);
             },
             stopLoad() {
                 this.isStarted = !this.isStarted;
                 axios.post(`http://localhost:8080/stopLoader`)
-            }
+            },
+            // getStatus() {
+            //     axios.get('https://localhost:8080/loaderStatus').then((response) =>
+            //         response ? this.isStarted = true : this.isStarted = false)
+            // }
         }
     }
 </script>

@@ -29,6 +29,7 @@ public class ArtificialLoaderWebController {
 
     @PostMapping("loaderThreads")
     public void startThreadsLoader(Long threads){
+        System.out.println(threads);
         for (int i = 0; i < threads; i++) {
             new ArtificialThreadLoader("ArtificialThreadLoader", loader);
         }
