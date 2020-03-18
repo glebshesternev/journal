@@ -19,7 +19,7 @@ public class Comment {
     private Date time;
 
     @ManyToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "post_comments",
             joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"),
@@ -27,7 +27,7 @@ public class Comment {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "comment_author",
             joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"),
