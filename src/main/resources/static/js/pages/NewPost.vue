@@ -1,22 +1,43 @@
 <template>
-    <div>
-        <label>
-            <input type="text" placeholder="Enter post title" v-model="title" />
-        </label>
-        <label>
-            <input type="text" placeholder="Type something" v-model="text" />
-        </label>
-        <input type="button" value="Post" @click="post" />
-    </div>
+    <v-container>
+        <v-input v-model="title">Enter post title</v-input>
+        <v-input v-model="text">Type something</v-input>
+        <v-btn @click="post">Post</v-btn>
+    </v-container>
 </template>
 
 <script>
-    import NewPost from "../components/posts/NewPost.vue";
+    import {sendPost} from "../util/ws";
 
     export default {
         name: "NewPost",
-        components: {
-            NewPost,
+        data() {
+            return {
+                postAttr: {
+                    title: '',
+                    text: '',
+                }
+            }
+        },
+        watch: {
+            postAttr(newVal) {
+                this.postAttr.title = newVal.title;
+                this.postAttr.text = newVal.text;
+            }
+        },
+        methods: {
+            post() {
+                sendPost({data: this.postAttr.text, name: this.postAttr.title});
+                this.postAttr.title = this.postAttr.text = '';
+                /*                let post = {
+                                    data: this.text,
+                                    name: this.title
+                                };
+                                axios.post(`${URL}`, post).then(() => {
+                                    this.title = '';
+                                    this.text = '';
+                                })*/
+            }
         }
     }
 </script>

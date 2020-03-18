@@ -22,16 +22,11 @@ public class MainController {
         this.userService = userService;
     }
 
-    @GetMapping("newPost")
-    public String createPost() {
-        return "newPost";
-    }
-
     @GetMapping("posts")
     public String showPosts(Model model) {
         model.addAttribute("profile", userService.getProfile());
         model.addAttribute("postsPage", postControllerService.getPostsPage());
         model.addAttribute("isDevMode", "dev".equals(profile));
-        return "posts";
+        return "index";
     }
 }

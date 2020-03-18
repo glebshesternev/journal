@@ -25,6 +25,7 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
     private Collection<Comment> comments;
+
     @ManyToOne(fetch = FetchType.LAZY,
                cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -32,6 +33,7 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private User author;
+
     @Formula("(SELECT COUNT(*) from post_comments where post_comments.post_id = id)")
     private int commentsCount;
 }

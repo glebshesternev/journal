@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.ok.journal.service.UserDetailsService;
 
-
 @Configuration
 @EnableWebSecurity
 @EntityScan("ru.ok.journal.model")
@@ -27,20 +26,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/static/js/**");
+        web.ignoring().antMatchers("/css/**", "/js/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/","/login**", "/static/js/**","/error**").permitAll()
+                .antMatchers("/","/login**", "/js/**","/error**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().defaultSuccessUrl("/posts",true)
                 .and()
-                .logout().logoutSuccessUrl("/login").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true);
+                .logout().logoutSuccessUrl("/login").permitAll().deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .and()
+                .csrf().disable();
     }
 
     @Bean
