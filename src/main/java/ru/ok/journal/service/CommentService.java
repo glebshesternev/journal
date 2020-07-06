@@ -25,4 +25,10 @@ public class CommentService implements ICommentService {
         commentRepository.save(comment);
         return comment;
     }
+
+    @Override
+    public void delete(Long commentId){
+        Comment comment = commentRepository.getOne(commentId);
+        commentRepository.delete(comment);
+    }
 }

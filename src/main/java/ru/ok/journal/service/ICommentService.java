@@ -7,4 +7,5 @@ import ru.ok.journal.model.User;
 
 public interface ICommentService {
     Comment add(User user, Post post, CommentDto commentDto);
+    void delete(Long commentId);
 }
